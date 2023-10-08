@@ -28,5 +28,11 @@ export class Dlool {
      */
     constructor(config: Config) {
         this.homework = new Homework(config);
+
+        // TODO: Check if it is valid
+        // TODO: for that create a api endpoint that returns if it is a dlool instance
     }
 }
+
+export { SchoolError } from './errors/school';
+export { ClassError } from './errors/class';
