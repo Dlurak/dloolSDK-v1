@@ -25,8 +25,18 @@ export const getPagedHomework = (baseUrl, options: { class: string; school: stri
             case invalidClassTemplate:
                 throw new ClassError(`The school ${options.school} does not have the class ${options.class}`);
             case successTemplate:
+                const homework = res.data.homework as Homework[];
+                const mappedHomework = homework.map((hw) => {
+                    // _id to id
+                    // createdAt timestamp to Date
+                    const { _id, createdAt, ...rest } = hw;
+                    const id = _id;
+                    const createdAtDate = new Date(createdAt);
+                    return { id, createdAt: createdAtDate, ...rest };
+                });
+
                 return {
-                    homework: res.data.homework as Homework[],
+                    homework: mappedHomework,
                     totalPageCount: res.data.totalPageCount as number,
                 };
         }

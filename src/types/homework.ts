@@ -6,16 +6,13 @@ type Assignment = {
     due: CustomDate;
 };
 
-<<<<<<< HEAD
 export type Homework = {
-=======
-type Homework = {
->>>>>>> edb86318ae734bb4a98a54a3df8b60f3d6f0dedd
     _id: string;
     from: CustomDate;
     assignments: Assignment[];
     class: string;
     creator: string;
+    createdAt: number;
 };
 
 export type getAllHomeworkAPIPositiveResponse = {

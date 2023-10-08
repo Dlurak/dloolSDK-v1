@@ -20,7 +20,17 @@ export const getAllHomework = (baseUrl: string, options: { class: string; school
             case invalidClassTemplate:
                 throw new ClassError(`The school ${options.school} does not have the class ${options.class}`);
             case successTemplate:
-                return { homework: (res as getAllHomeworkAPIPositiveResponse).data };
+                const homework = (res as getAllHomeworkAPIPositiveResponse).data;
+                const mappedHomework = homework.map((hw) => {
+                    // _id to id
+                    // createdAt timestamp to Date
+                    const { _id, createdAt, ...rest } = hw;
+                    const id = _id;
+                    const createdAtDate = new Date(createdAt);
+                    return { id, createdAt: createdAtDate, ...rest };
+                });
+
+                return { homework: mappedHomework };
         }
     });
 };
