@@ -1,0 +1,32 @@
+{
+    "name": "dlool-sdk",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "module": "dist/index.m.js",
+    "unpkg": "dist/index.umd.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
+        "lint": "tsc",
+        "format": "prettier --write ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "microbundle": "^0.15.1",
+        "prettier": "^3.0.3",
+        "typescript": "^5.2.2"
+    },
+    "dependencies": {
+        "isomorphic-unfetch": "^4.0.2"
+    },
+    "exports": {
+        "require": "./dist/index.js",
+        "default": "./dist/index.modern.js"
+    },
+    "files": [
+        "dist"
+    ]
+}
