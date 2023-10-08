@@ -1,7 +1,7 @@
 {
     "name": "dlool-sdk",
-    "version": "1.0.0",
-    "description": "",
+    "version": "0.0.1",
+    "description": "The dlool SDK for JavaScript enables you to directly access dlool from your JavaScript code, using the native JavaScript objects, without the need to use the dlool API directly.",
     "main": "dist/index.js",
     "module": "dist/index.m.js",
     "unpkg": "dist/index.umd.js",
@@ -9,11 +9,21 @@
     "scripts": {
         "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
         "lint": "tsc",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "publish": "npm run build && npm publish --access public",
+        "test": "echo \"Unit tests will be implemented in the near future\" && exit 1"
     },
-    "keywords": [],
+    "keywords": [
+        "dlool",
+        "sdk"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Dlurak/dloolSDK",
+        "directory": "packages/dlool-sdk"
+    },
     "author": "",
-    "license": "ISC",
+    "license": "LGPL-3.0-or-later",
     "devDependencies": {
         "microbundle": "^0.15.1",
         "prettier": "^3.0.3",
