@@ -13,11 +13,8 @@ import { Homework } from './resources/homework';
  *  })
  */
 export class Dlool {
-    /**
-     * The homework instance associated with the Dlool instance
-     * @type {Homework}
-     * @class
-     */
+    baseUrl: string;
+
     homework: Homework;
     auth: Auth;
 
@@ -29,8 +26,10 @@ export class Dlool {
      * @param {{ baseUrl: string } config - The configuration for the Dlool instance
      */
     constructor(config: Config = { baseUrl: 'https://dlool-backend.onrender.com' }) {
-        this.homework = new Homework(config);
-        this.auth = new Auth(config);
+        this.baseUrl = config.baseUrl;
+
+        this.homework = new Homework(this);
+        this.auth = new Auth(this);
 
         // TODO: Check if it is valid
         // TODO: for that create a api endpoint that returns if it is a dlool instance

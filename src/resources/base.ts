@@ -1,11 +1,17 @@
+import { Dlool } from 'src';
+
 export type Config = {
     baseUrl: string;
 };
 
 export abstract class BaseResource {
-    baseUrl: string;
+    private _dlool: Dlool;
 
-    constructor(config: Config = { baseUrl: 'https://dlool-backend.onrender.com' }) {
-        this.baseUrl = config.baseUrl;
+    protected get dlool(): Dlool {
+        return this._dlool;
+    }
+
+    constructor(dlool: Dlool) {
+        this._dlool = dlool;
     }
 }

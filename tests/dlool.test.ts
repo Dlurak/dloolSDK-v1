@@ -1,5 +1,7 @@
 import { expect, it, describe } from 'vitest';
 import { Dlool } from '../src/index';
+import { Auth } from '../src/resources/auth';
+import { Homework } from '../src/resources/homework';
 
 describe('dlool', () => {
     const dlool = new Dlool();
@@ -8,11 +10,9 @@ describe('dlool', () => {
         expect(dlool).toBeDefined();
     });
 
-    it('should have a homework property', () => {
-        expect(dlool.homework).toBeDefined();
-    });
-
-    it('should have a baseUrl that is the default', () => {
-        expect(dlool.homework.baseUrl).toBe('https://dlool-backend.onrender.com');
+    it('should have all (default) properties', () => {
+        expect(dlool.homework).toBeInstanceOf(Homework);
+        expect(dlool.auth).toBeInstanceOf(Auth);
+        expect(dlool.baseUrl).toBe('https://dlool-backend.onrender.com');
     });
 });

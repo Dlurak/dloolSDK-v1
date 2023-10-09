@@ -14,10 +14,10 @@ export class Homework extends BaseResource {
      * @returns The response from the API
      */
     getAllHomework(options: { class: string; school: string }) {
-        return getAllHomework(this.baseUrl, options);
+        return getAllHomework(this.dlool.baseUrl, options);
     }
 
     getPagedHomework(options: { class: string; school: string; page: number; limit: number }) {
-        return getPagedHomework(this.baseUrl, options);
+        return getPagedHomework(this.dlool.baseUrl, options);
     }
 }
