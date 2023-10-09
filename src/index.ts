@@ -45,3 +45,4 @@ export class Dlool {
 export { SchoolError } from './errors/school';
 export { ClassError } from './errors/class';
 export { AuthError } from './errors/auth';
+export { HomeworkError } from './errors/homework';

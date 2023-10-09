@@ -1,5 +1,5 @@
 import { expect, it, describe } from 'vitest';
-import { ClassError, SchoolError, AuthError } from '../src';
+import { ClassError, SchoolError, AuthError, HomeworkError } from '../src';
 
 describe('ClassError', () => {
     it('should set the name property correctly', () => {
@@ -36,6 +36,19 @@ describe('AuthError', () => {
     it('should set the message property correctly', () => {
         const errorMessage = 'Test error message';
         const error = new AuthError(errorMessage);
+        expect(error.message).toBe(errorMessage);
+    });
+});
+
+describe('HomeworkError', () => {
+    it('should set the name property correctly', () => {
+        const error = new HomeworkError('Test error message');
+        expect(error.name).toBe('HomeworkError');
+    });
+
+    it('should set the message property correctly', () => {
+        const errorMessage = 'Test error message';
+        const error = new HomeworkError(errorMessage);
         expect(error.message).toBe(errorMessage);
     });
 });

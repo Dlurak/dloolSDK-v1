@@ -2,10 +2,19 @@ import { expect, it, describe, vi, afterEach } from 'vitest';
 import { Dlool } from '../src/index';
 import { Homework, NewHomework } from '../src/types/homework';
 import { isHomework } from './validate/isHomework';
-import { mockGlobalFetch, mockOneGlobalFetch } from './utils/mockGlobalFetch';
-import { mock } from 'node:test';
+import { mockGlobalFetch, mockOneGlobalFetch, mockRejectGlobalFetch } from './utils/mockGlobalFetch';
 
 const dlool = new Dlool();
+
+const positiveLoginResponse = {
+    status: 'success',
+    message: 'Login successful',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRsdXJhayIsImlhdCI6MTY5Njg2ODcwMSwiZXhwIjoxNjk2ODcyMzAxfQ.Strzn_wklTQgFC7l34bRnb0Skk5TmlhWN3Gx_lY296Q',
+};
+const negativeLoginResponse = {
+    status: 'error',
+    message: 'Invalid username or password',
+};
 
 describe(
     'getAllHomework',
@@ -136,11 +145,6 @@ describe('getPagedHomework', () => {
 });
 
 describe('createHomework', () => {
-    const positiveLoginResponse = {
-        status: 'success',
-        message: 'Login successful',
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRsdXJhayIsImlhdCI6MTY5Njg2ODcwMSwiZXhwIjoxNjk2ODcyMzAxfQ.Strzn_wklTQgFC7l34bRnb0Skk5TmlhWN3Gx_lY296Q',
-    };
     const successResponse = {
         status: 'success',
         message: 'Homework created',
@@ -208,6 +212,84 @@ describe('createHomework', () => {
 
         await expect(async () => {
             await dlool.homework.createHomework(positiveRequest);
+        }).rejects.toThrowError();
+    });
+});
+
+describe('deleteHomework', () => {
+    it('should delete a homework', async () => {
+        const dlool = new Dlool();
+
+        mockOneGlobalFetch(positiveLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' });
+
+        mockOneGlobalFetch({
+            status: 'success',
+            message: 'Homework deleted successfully',
+        });
+        const result = dlool.homework.deleteHomework('Homework ID');
+
+        expect(result).resolves.toBe(true);
+    });
+
+    it('should throw an error when the token is invalid', async () => {
+        const dlool = new Dlool();
+
+        const plannedThrow = async () => {
+            await expect(async () => {
+                await dlool.homework.deleteHomework('Homework ID');
+            }).rejects.toThrowError();
+        };
+
+        await plannedThrow();
+
+        mockOneGlobalFetch(negativeLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' }).catch(() => {});
+        await plannedThrow();
+
+        dlool.token = 'invalid';
+        await plannedThrow();
+    });
+
+    it('should throw an error when the homework id is invalid', async () => {
+        const dlool = new Dlool();
+
+        mockOneGlobalFetch(positiveLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' });
+
+        mockOneGlobalFetch({
+            status: 'error',
+            message: 'Invalid homework id',
+        });
+        await expect(async () => {
+            await dlool.homework.deleteHomework('Homework ID');
+        }).rejects.toThrowError('The homework id is invalid');
+    });
+
+    it('should throw an error when the homework does not exist', async () => {
+        const dlool = new Dlool();
+
+        mockOneGlobalFetch(positiveLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' });
+
+        mockOneGlobalFetch({
+            status: 'error',
+            message: 'Homework not found',
+        });
+        await expect(async () => {
+            await dlool.homework.deleteHomework('Homework ID');
+        }).rejects.toThrowError('The homework does not exist');
+    });
+
+    it('should throw an error when the request failed', async () => {
+        const dlool = new Dlool();
+
+        mockOneGlobalFetch(positiveLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' });
+
+        mockRejectGlobalFetch(new Error('Invalid testddd'));
+        await expect(async () => {
+            await dlool.homework.deleteHomework('Homework ID');
         }).rejects.toThrowError();
     });
 });

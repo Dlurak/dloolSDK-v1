@@ -19,3 +19,8 @@ export const mockOneGlobalFetch = (res: any) => {
 
     global.fetch = mockFetch;
 };
+
+export const mockRejectGlobalFetch = (res: any) => {
+    const spy = vi.spyOn(global, 'fetch');
+    spy.mockRejectedValue(new Error(res));
+};

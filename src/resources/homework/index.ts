@@ -3,6 +3,7 @@ import { BaseResource } from '../base';
 import { createHomework } from './createHomework';
 import { getAllHomework } from './getAllHomework';
 import { getPagedHomework } from './getPagedHomework';
+import { deleteHomework } from './deleteHomework';
 
 /**
  * Homework class
@@ -25,5 +26,9 @@ export class Homework extends BaseResource {
 
     createHomework(data: NewHomework) {
         return createHomework(this.dlool, data);
+    }
+
+    deleteHomework(homeworkId: string) {
+        return deleteHomework(this.dlool, homeworkId);
     }
 }
