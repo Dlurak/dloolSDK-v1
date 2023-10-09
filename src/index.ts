@@ -1,3 +1,4 @@
+import { Auth } from './resources/auth';
 import { Config } from './resources/base';
 import { Homework } from './resources/homework';
 
@@ -18,6 +19,7 @@ export class Dlool {
      * @class
      */
     homework: Homework;
+    auth: Auth;
 
     /**
      * Creates a new Dlool instance
@@ -28,6 +30,7 @@ export class Dlool {
      */
     constructor(config: Config = { baseUrl: 'https://dlool-backend.onrender.com' }) {
         this.homework = new Homework(config);
+        this.auth = new Auth(config);
 
         // TODO: Check if it is valid
         // TODO: for that create a api endpoint that returns if it is a dlool instance
@@ -36,3 +39,4 @@ export class Dlool {
 
 export { SchoolError } from './errors/school';
 export { ClassError } from './errors/class';
+export { AuthError } from './errors/auth';
