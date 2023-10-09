@@ -27,19 +27,23 @@ describe('Login', () => {
 
     it('should login', async () => {
         mockGlobalFetch(positiveApiResponse);
+        const dlool = new Dlool();
 
         const res = await dlool.auth.login({ username: 'admin', password: 'admin' });
         expect(res.token).toBe(positiveApiResponse.token);
+        expect(dlool.token).toBe(positiveApiResponse.token);
     });
 
     it('should throw an error', async () => {
         mockGlobalFetch(negativeApiResponse);
+        const dlool = new Dlool();
 
         await expect(
             (async () => {
                 await dlool.auth.login({ username: 'admin', password: 'admin' });
             })(),
         ).rejects.toThrowError('Incorrect username or password');
+        expect(dlool.token).toBeUndefined();
     });
 
     it('should throw an error when it cannot request the API', async () => {

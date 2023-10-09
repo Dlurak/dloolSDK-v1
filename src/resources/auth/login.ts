@@ -1,7 +1,8 @@
+import { Dlool } from 'src';
 import { AuthError } from 'src/errors/auth';
 
-export const login = (baseUrl, options: { username: string; password: string }) => {
-    const url = `${baseUrl}/auth/login`;
+export const login = (dlool: Dlool, options: { username: string; password: string }) => {
+    const url = `${dlool.baseUrl}/auth/login`;
     const response = fetch(url, {
         method: 'POST',
         headers: {
@@ -20,6 +21,7 @@ export const login = (baseUrl, options: { username: string; password: string }) 
         switch (status) {
             case 'success':
                 const token = res.token as string;
+                dlool.token = token;
                 return { token };
             case 'error':
                 throw new AuthError('Incorrect username or password');

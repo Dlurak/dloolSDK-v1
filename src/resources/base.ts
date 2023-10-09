@@ -1,9 +1,5 @@
 import { Dlool } from 'src';
 
-export type Config = {
-    baseUrl: string;
-};
-
 export abstract class BaseResource {
     private _dlool: Dlool;
 

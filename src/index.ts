@@ -1,6 +1,10 @@
 import { Auth } from './resources/auth';
-import { Config } from './resources/base';
 import { Homework } from './resources/homework';
+
+export type Config = {
+    baseUrl: string;
+    token: string | undefined;
+};
 
 /**
  * Dlool class
@@ -14,6 +18,7 @@ import { Homework } from './resources/homework';
  */
 export class Dlool {
     baseUrl: string;
+    token: string | undefined;
 
     homework: Homework;
     auth: Auth;
@@ -25,8 +30,9 @@ export class Dlool {
      * @constructs Dlool
      * @param {{ baseUrl: string } config - The configuration for the Dlool instance
      */
-    constructor(config: Config = { baseUrl: 'https://dlool-backend.onrender.com' }) {
+    constructor(config: Config = { baseUrl: 'https://dlool-backend.onrender.com', token: undefined }) {
         this.baseUrl = config.baseUrl;
+        this.token = config.token;
 
         this.homework = new Homework(this);
         this.auth = new Auth(this);
