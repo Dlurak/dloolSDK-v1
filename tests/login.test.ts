@@ -1,17 +1,8 @@
 import { describe, it, afterEach, vi, expect } from 'vitest';
 import { Dlool } from '../src/index';
+import { mockGlobalFetch } from './utils/mockGlobalFetch';
 
 const dlool = new Dlool();
-
-const mockGlobalFetch = (res: any) => {
-    const mockFetch = vi.fn();
-    const mockResponse = {
-        json: vi.fn(() => res),
-    };
-    mockFetch.mockResolvedValue(mockResponse);
-
-    global.fetch = mockFetch;
-};
 
 describe('Login', () => {
     const positiveApiResponse = {
@@ -30,7 +21,7 @@ describe('Login', () => {
         const dlool = new Dlool();
 
         const res = await dlool.auth.login({ username: 'admin', password: 'admin' });
-        expect(res.token).toBe(positiveApiResponse.token);
+        expect(res).toBe(positiveApiResponse.token);
         expect(dlool.token).toBe(positiveApiResponse.token);
     });
 

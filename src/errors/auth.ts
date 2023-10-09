@@ -4,3 +4,5 @@ export class AuthError extends Error {
         this.name = 'AuthError';
     }
 }
+
+export const notAuthenticated = new AuthError('You must be logged in to perform this action');

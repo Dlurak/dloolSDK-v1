@@ -1,5 +1,5 @@
 import { Homework } from '../../src/types/homework';
-import { isCustomDate } from './iscustomDate';
+import { isCustomDate } from '../../src/utils/iscustomDate';
 import { expect } from 'vitest';
 
 export const isHomework = (homework: Homework[]) => {

@@ -1,4 +1,6 @@
+import { NewHomework } from 'src/types/homework';
 import { BaseResource } from '../base';
+import { createHomework } from './createHomework';
 import { getAllHomework } from './getAllHomework';
 import { getPagedHomework } from './getPagedHomework';
 
@@ -19,5 +21,9 @@ export class Homework extends BaseResource {
 
     getPagedHomework(options: { class: string; school: string; page: number; limit: number }) {
         return getPagedHomework(this.dlool.baseUrl, options);
+    }
+
+    createHomework(data: NewHomework) {
+        return createHomework(this.dlool, data);
     }
 }

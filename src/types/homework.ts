@@ -27,3 +27,9 @@ type getAllHomeworkAPINegativeResponse = {
 };
 
 export type getAllHomeworkAPIResponse = getAllHomeworkAPIPositiveResponse | getAllHomeworkAPINegativeResponse;
+
+export type NewHomework = {
+    from: CustomDate;
+    className: string;
+    assignments: Assignment[];
+};

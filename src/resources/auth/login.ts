@@ -22,7 +22,7 @@ export const login = (dlool: Dlool, options: { username: string; password: strin
             case 'success':
                 const token = res.token as string;
                 dlool.token = token;
-                return { token };
+                return [token, dlool] as const;
             case 'error':
                 throw new AuthError('Incorrect username or password');
         }

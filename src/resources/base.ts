@@ -7,6 +7,14 @@ export abstract class BaseResource {
         return this._dlool;
     }
 
+    protected set dlool(dlool: Dlool) {
+        this._dlool = dlool;
+    }
+
+    protected updateDloolToken(token: string) {
+        this._dlool.token = token;
+    }
+
     constructor(dlool: Dlool) {
         this._dlool = dlool;
     }

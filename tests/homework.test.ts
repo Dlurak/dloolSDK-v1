@@ -1,7 +1,9 @@
-import { expect, it, describe } from 'vitest';
+import { expect, it, describe, vi, afterEach } from 'vitest';
 import { Dlool } from '../src/index';
-import { Homework } from '../src/types/homework';
+import { Homework, NewHomework } from '../src/types/homework';
 import { isHomework } from './validate/isHomework';
+import { mockGlobalFetch, mockOneGlobalFetch } from './utils/mockGlobalFetch';
+import { mock } from 'node:test';
 
 const dlool = new Dlool();
 
@@ -130,5 +132,82 @@ describe('getPagedHomework', () => {
         const homework = res?.homework as Homework[];
 
         isHomework(homework);
+    });
+});
+
+describe('createHomework', () => {
+    const positiveLoginResponse = {
+        status: 'success',
+        message: 'Login successful',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRsdXJhayIsImlhdCI6MTY5Njg2ODcwMSwiZXhwIjoxNjk2ODcyMzAxfQ.Strzn_wklTQgFC7l34bRnb0Skk5TmlhWN3Gx_lY296Q',
+    };
+    const successResponse = {
+        status: 'success',
+        message: 'Homework created',
+        data: {
+            creator: 'Creator ID',
+            class: 'Class ID',
+            createdAt: 0,
+            _id: 'Homework ID',
+            assignments: [
+                {
+                    subject: 'Math',
+                    description: 'Finish book page 42',
+                    due: {
+                        year: 2023,
+                        month: 6,
+                        day: 27,
+                    },
+                },
+            ],
+        },
+    };
+
+    const positiveRequest: NewHomework = {
+        from: {
+            day: 1,
+            month: 1,
+            year: 2021,
+        },
+        assignments: [
+            {
+                subject: 'test',
+                description: 'test',
+                due: {
+                    day: 1,
+                    month: 1,
+                    year: 2021,
+                },
+            },
+        ],
+        className: '9c',
+    };
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it('should create a homework', async () => {
+        const dlool = new Dlool();
+
+        mockOneGlobalFetch(positiveLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' });
+
+        mockOneGlobalFetch(successResponse);
+        const result = await dlool.homework.createHomework(positiveRequest);
+
+        expect(result).toBeDefined();
+        expect(result?.classId).toBe('Class ID');
+        expect(result?.creatorId).toBe('Creator ID');
+        expect(result?.homeworkId).toBe('Homework ID');
+        expect(result?.createdAt.toISOString()).toBe(new Date(0).toISOString());
+    });
+
+    it('should throw an error when the token is invalid', async () => {
+        const dlool = new Dlool();
+
+        await expect(async () => {
+            await dlool.homework.createHomework(positiveRequest);
+        }).rejects.toThrowError();
     });
 });
