@@ -214,6 +214,34 @@ describe('createHomework', () => {
             await dlool.homework.createHomework(positiveRequest);
         }).rejects.toThrowError();
     });
+
+    it('should throw an error when the user gives invalid data', async () => {
+        const dlool = new Dlool();
+
+        const invalidFrom = {
+            ...positiveRequest,
+            from: {
+                day: 1,
+                month: 1,
+                year: 0,
+            },
+        };
+        const invalidAssignments = {
+            ...positiveRequest,
+            assignments: [],
+        };
+
+        mockOneGlobalFetch(positiveLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' });
+
+        await expect(async () => {
+            await dlool.homework.createHomework(invalidFrom);
+        }).rejects.toThrowError('The from field is not a valid date');
+
+        await expect(async () => {
+            await dlool.homework.createHomework(invalidAssignments);
+        }).rejects.toThrowError('The assignments field is empty');
+    });
 });
 
 describe('deleteHomework', () => {
