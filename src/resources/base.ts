@@ -5,7 +5,7 @@ export type Config = {
 export abstract class BaseResource {
     baseUrl: string;
 
-    constructor(config: Config) {
+    constructor(config: Config = { baseUrl: 'https://dlool-backend.onrender.com' }) {
         this.baseUrl = config.baseUrl;
     }
 }

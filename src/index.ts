@@ -26,7 +26,7 @@ export class Dlool {
      * @constructs Dlool
      * @param {{ baseUrl: string } config - The configuration for the Dlool instance
      */
-    constructor(config: Config) {
+    constructor(config: Config = { baseUrl: 'https://dlool-backend.onrender.com' }) {
         this.homework = new Homework(config);
 
         // TODO: Check if it is valid

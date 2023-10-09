@@ -11,7 +11,8 @@
         "lint": "tsc",
         "format": "prettier --write .",
         "publish": "npm run build && npm publish --access public",
-        "test": "echo \"Unit tests will be implemented in the near future\" && exit 1"
+        "test": "vitest",
+        "test:cov": "vitest run --coverage"
     },
     "keywords": [
         "dlool",
@@ -25,9 +26,11 @@
     "author": "",
     "license": "LGPL-3.0-or-later",
     "devDependencies": {
+        "@vitest/coverage-v8": "^0.34.6",
         "microbundle": "^0.15.1",
         "prettier": "^3.0.3",
-        "typescript": "^5.2.2"
+        "typescript": "^5.2.2",
+        "vitest": "^0.34.6"
     },
     "dependencies": {
         "isomorphic-unfetch": "^4.0.2"
