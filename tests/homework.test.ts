@@ -17,7 +17,7 @@ const negativeLoginResponse = {
 };
 
 describe(
-    'getAllHomework',
+    'getAll',
     () => {
         it('should throw an school is invalid error', async () => {
             const obj = {
@@ -27,7 +27,7 @@ describe(
 
             await expect(
                 (async () => {
-                    await dlool.homework.getAllHomework(obj);
+                    await dlool.homework.getAll(obj);
                 })(),
             ).rejects.toThrowError(`The school ${obj.school} does not exist`);
         });
@@ -40,7 +40,7 @@ describe(
 
             await expect(
                 (async () => {
-                    await dlool.homework.getAllHomework(obj);
+                    await dlool.homework.getAll(obj);
                 })(),
             ).rejects.toThrowError(`The school ${obj.school} does not have the class ${obj.class}`);
         });
@@ -51,7 +51,7 @@ describe(
                 class: '9c',
             };
 
-            const res = await dlool.homework.getAllHomework(obj);
+            const res = await dlool.homework.getAll(obj);
             expect(res).toBeDefined();
 
             // @ts-expect-error
@@ -63,7 +63,7 @@ describe(
     },
 );
 
-describe('getPagedHomework', () => {
+describe('getPaged', () => {
     it('should throw an school is invalid error', async () => {
         const obj = {
             school: 'invalid',
@@ -74,7 +74,7 @@ describe('getPagedHomework', () => {
 
         await expect(
             (async () => {
-                await dlool.homework.getPagedHomework(obj);
+                await dlool.homework.getPaged(obj);
             })(),
         ).rejects.toThrowError(`The school ${obj.school} does not exist`);
     });
@@ -89,7 +89,7 @@ describe('getPagedHomework', () => {
 
         await expect(
             (async () => {
-                await dlool.homework.getPagedHomework(obj);
+                await dlool.homework.getPaged(obj);
             })(),
         ).rejects.toThrowError(`The school ${obj.school} does not have the class ${obj.class}`);
     });
@@ -104,7 +104,7 @@ describe('getPagedHomework', () => {
 
         await expect(
             (async () => {
-                await dlool.homework.getPagedHomework(obj);
+                await dlool.homework.getPaged(obj);
             })(),
         ).rejects.toThrowError('page must be greater than 0');
     });
@@ -119,7 +119,7 @@ describe('getPagedHomework', () => {
 
         await expect(
             (async () => {
-                await dlool.homework.getPagedHomework(obj);
+                await dlool.homework.getPaged(obj);
             })(),
         ).rejects.toThrowError('limit must be greater than 0');
     });
@@ -132,7 +132,7 @@ describe('getPagedHomework', () => {
             limit: 2,
         };
 
-        const res = await dlool.homework.getPagedHomework(obj);
+        const res = await dlool.homework.getPaged(obj);
 
         const totalPageCount = res?.totalPageCount as number;
         expect(totalPageCount).toBeTypeOf('number');
@@ -144,7 +144,7 @@ describe('getPagedHomework', () => {
     });
 });
 
-describe('createHomework', () => {
+describe('create', () => {
     const successResponse = {
         status: 'success',
         message: 'Homework created',
@@ -198,7 +198,7 @@ describe('createHomework', () => {
         await dlool.auth.login({ username: 'admin', password: 'admin' });
 
         mockOneGlobalFetch(successResponse);
-        const result = await dlool.homework.createHomework(positiveRequest);
+        const result = await dlool.homework.create(positiveRequest);
 
         expect(result).toBeDefined();
         expect(result?.classId).toBe('Class ID');
@@ -211,7 +211,7 @@ describe('createHomework', () => {
         const dlool = new Dlool();
 
         await expect(async () => {
-            await dlool.homework.createHomework(positiveRequest);
+            await dlool.homework.create(positiveRequest);
         }).rejects.toThrowError();
     });
 
@@ -235,16 +235,16 @@ describe('createHomework', () => {
         await dlool.auth.login({ username: 'admin', password: 'admin' });
 
         await expect(async () => {
-            await dlool.homework.createHomework(invalidFrom);
+            await dlool.homework.create(invalidFrom);
         }).rejects.toThrowError('The from field is not a valid date');
 
         await expect(async () => {
-            await dlool.homework.createHomework(invalidAssignments);
+            await dlool.homework.create(invalidAssignments);
         }).rejects.toThrowError('The assignments field is empty');
     });
 });
 
-describe('deleteHomework', () => {
+describe('delete', () => {
     it('should delete a homework', async () => {
         const dlool = new Dlool();
 
@@ -255,7 +255,7 @@ describe('deleteHomework', () => {
             status: 'success',
             message: 'Homework deleted successfully',
         });
-        const result = dlool.homework.deleteHomework('Homework ID');
+        const result = dlool.homework.delete('Homework ID');
 
         expect(result).resolves.toBe(true);
     });
@@ -265,7 +265,7 @@ describe('deleteHomework', () => {
 
         const plannedThrow = async () => {
             await expect(async () => {
-                await dlool.homework.deleteHomework('Homework ID');
+                await dlool.homework.delete('Homework ID');
             }).rejects.toThrowError();
         };
 
@@ -290,7 +290,7 @@ describe('deleteHomework', () => {
             message: 'Invalid homework id',
         });
         await expect(async () => {
-            await dlool.homework.deleteHomework('Homework ID');
+            await dlool.homework.delete('Homework ID');
         }).rejects.toThrowError('The homework id is invalid');
     });
 
@@ -305,7 +305,7 @@ describe('deleteHomework', () => {
             message: 'Homework not found',
         });
         await expect(async () => {
-            await dlool.homework.deleteHomework('Homework ID');
+            await dlool.homework.delete('Homework ID');
         }).rejects.toThrowError('The homework does not exist');
     });
 
@@ -317,7 +317,7 @@ describe('deleteHomework', () => {
 
         mockRejectGlobalFetch(new Error('Invalid testddd'));
         await expect(async () => {
-            await dlool.homework.deleteHomework('Homework ID');
+            await dlool.homework.delete('Homework ID');
         }).rejects.toThrowError();
     });
 });
