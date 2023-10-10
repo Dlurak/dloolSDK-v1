@@ -33,3 +33,8 @@ export type NewHomework = {
     className: string;
     assignments: Assignment[];
 };
+
+export type UpdateHomework = {
+    from: CustomDate;
+    assignments: Assignment[];
+};

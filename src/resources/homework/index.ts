@@ -1,9 +1,10 @@
-import { NewHomework } from 'src/types/homework';
+import { NewHomework, UpdateHomework } from 'src/types/homework';
 import { BaseResource } from '../base';
 import { createHomework } from './createHomework';
 import { getAllHomework } from './getAllHomework';
 import { getPagedHomework } from './getPagedHomework';
 import { deleteHomework } from './deleteHomework';
+import { updateHomework } from './updateHomework';
 
 /**
  * Homework class
@@ -16,19 +17,23 @@ export class Homework extends BaseResource {
      * @param {{ class: string; school: string }} options - The options for the getAllHomework method
      * @returns The response from the API
      */
-    getAllHomework(options: { class: string; school: string }) {
+    getAll(options: { class: string; school: string }) {
         return getAllHomework(this.dlool.baseUrl, options);
     }
 
-    getPagedHomework(options: { class: string; school: string; page: number; limit: number }) {
+    getPaged(options: { class: string; school: string; page: number; limit: number }) {
         return getPagedHomework(this.dlool.baseUrl, options);
     }
 
-    createHomework(data: NewHomework) {
+    create(data: NewHomework) {
         return createHomework(this.dlool, data);
     }
 
-    deleteHomework(homeworkId: string) {
+    delete(homeworkId: string) {
         return deleteHomework(this.dlool, homeworkId);
+    }
+
+    update(id: string, data: UpdateHomework) {
+        return updateHomework(this.dlool, id, data);
     }
 }
