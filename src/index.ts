@@ -36,9 +36,13 @@ export class Dlool {
 
         this.homework = new Homework(this);
         this.auth = new Auth(this);
+    }
 
-        // TODO: Check if it is valid
-        // TODO: for that create a api endpoint that returns if it is a dlool instance
+    validateBaseUrl() {
+        return fetch(this.baseUrl)
+            .then((res) => res.json())
+            .then((res) => !!res.isDlool)
+            .catch(() => false);
     }
 }
 

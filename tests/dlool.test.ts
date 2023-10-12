@@ -15,4 +15,9 @@ describe('dlool', () => {
         expect(dlool.auth).toBeInstanceOf(Auth);
         expect(dlool.baseUrl).toBe('https://dlool-backend.onrender.com');
     });
+
+    it("should return false when the service isn't a Dlool instance", async () => {
+        const dlool = new Dlool({ baseUrl: 'https://google.com', token: undefined });
+        expect(await dlool.validateBaseUrl()).toBe(false);
+    });
 });
