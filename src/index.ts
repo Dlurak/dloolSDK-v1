@@ -19,6 +19,7 @@ export type Config = {
 export class Dlool {
     baseUrl: string;
     token: string | undefined;
+    serverName: string;
 
     homework: Homework;
     auth: Auth;
@@ -37,8 +38,13 @@ export class Dlool {
         this.homework = new Homework(this);
         this.auth = new Auth(this);
 
-        // TODO: Check if it is valid
-        // TODO: for that create a api endpoint that returns if it is a dlool instance
+        fetch(this.baseUrl)
+            .then((res) => res.json())
+            .then((res) => {
+                const resName = res.name;
+                if (typeof resName !== 'string') throw new Error("The server's name is not a string or not defined");
+                if (!res.isDlool) throw new Error('The server is not a Dlool server');
+            });
     }
 }
 
