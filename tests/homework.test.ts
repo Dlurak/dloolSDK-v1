@@ -1,6 +1,6 @@
 import { expect, it, describe, vi, afterEach } from 'vitest';
 import { Dlool } from '../src/index';
-import { Homework, NewHomework } from '../src/types/homework';
+import { Homework, NewHomework, UpdateHomework } from '../src/types/homework';
 import { isHomework } from './validate/isHomework';
 import { mockGlobalFetch, mockOneGlobalFetch, mockRejectGlobalFetch } from './utils/mockGlobalFetch';
 
@@ -319,5 +319,79 @@ describe('delete', () => {
         await expect(async () => {
             await dlool.homework.delete('Homework ID');
         }).rejects.toThrowError();
+    });
+});
+
+describe('update', () => {
+    it('should update a homework', async () => {
+        const dlool = new Dlool();
+
+        mockOneGlobalFetch(positiveLoginResponse);
+        await dlool.auth.login({ username: 'admin', password: 'admin' });
+
+        mockOneGlobalFetch({
+            message: 'homework updated',
+            data: {
+                class: 'someClassId',
+                creator: 'someCreatorId',
+                createdAt: 0,
+            },
+        });
+
+        const request: UpdateHomework = {
+            from: {
+                day: 1,
+                month: 1,
+                year: 2021,
+            },
+            assignments: [
+                {
+                    subject: 'Math',
+                    description: 'Finish book page 42',
+                    due: {
+                        year: 2023,
+                        month: 6,
+                        day: 27,
+                    },
+                },
+            ],
+        };
+        const result = await dlool.homework.update('Homework ID', request);
+
+        expect(result).toBeDefined();
+        expect(result).toEqual({
+            classId: 'someClassId',
+            creatorId: 'someCreatorId',
+            createdAt: new Date(0),
+        });
+    });
+
+    it('should throw an error when the token is invalid', async () => {
+        const dlool = new Dlool();
+
+        const plannedThrow = async () => {
+            await expect(async () => {
+                await dlool.homework.update('Homework ID', {
+                    from: {
+                        day: 1,
+                        month: 1,
+                        year: 2021,
+                    },
+                    assignments: [
+                        {
+                            subject: 'Math',
+                            description: 'Finish book page 42',
+                            due: {
+                                year: 2023,
+                                month: 6,
+                                day: 27,
+                            },
+                        },
+                    ],
+                });
+            }).rejects.toThrowError('You must be logged in to perform this action');
+        };
+
+        await plannedThrow();
     });
 });
