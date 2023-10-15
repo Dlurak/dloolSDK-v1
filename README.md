@@ -29,15 +29,20 @@ Also note that the SDK isn't stable yet and may change in the future.
 2. Import the SDK with `import { Dlool } from "dlool-sdk";`
 3. Create a new Dlool instance like this:
     ```js
-    const dlool = new Dlool({
-        baseUrl: 'https://dlool-backend.onrender.com',
-    });
-    const homework = await dlool.homework.getAllHomework({
-        class: '1a',
-        school: 'Hogwarts',
-    });
+    const dlool = new Dlool();
     ```
 
 ### Documentation
 
-I plan to document the SDK with GitHub Wiki. But as it is still very early there is no documentation yet.
+Some parts of the documentation are already available. You can find them [on the GitHub Wiki](https://github.com/Dlurak/dloolSDK/wiki).
+
+### Contributing
+
+Feel free to open PR - it doesn't matter if it's a bug fix, a new feature or just a typo.
+
+1. Fork the repository
+2. Clone the forked repository
+3. Install the dependencies with `pnpm i`
+4. Make your changes and write tests for them
+5. Test your changes with `pnpm test` and `pnpm lint`
+6. Create a pull request
