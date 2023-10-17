@@ -21,7 +21,7 @@ export const user = (dlool: Dlool, id: string) => {
                 user.id = user._id;
                 delete user._id;
 
-                return user;
+                return user as User;
         }
     });
 };

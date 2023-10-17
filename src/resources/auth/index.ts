@@ -1,3 +1,4 @@
+import { Dlool } from 'src';
 import { BaseResource } from '../base';
 import { login } from './login';
 import { user } from './user';

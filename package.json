@@ -1,6 +1,6 @@
 {
     "name": "dlool-sdk",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "The dlool SDK for JavaScript enables you to directly access dlool from your JavaScript code, using the native JavaScript objects, without the need to use the dlool API directly.",
     "main": "dist/index.js",
     "module": "dist/index.m.js",
